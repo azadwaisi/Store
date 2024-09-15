@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +7,22 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-	public class Product
+	public class Product : BaseAuditableEntity,ICommands
 	{
-        public Guid Id { get; set; }
-		public string Name { get; set; }
+		public string Title { get; set; }
 		public string Barcode { get; set; }
-		public DateTime? CreatedDate { get; set; }
-		public Guid? CreateUserId { get; set; }
-		public DateTime? ModifiedDate { get; set; }
-		public Guid? ModifiedUserId { get; set; }
-	}
+        public decimal Price { get; set; }
+        public string PictureUrl { get; set; }
+		//
+        public Guid ProductTypeId { get; set; }
+        public Guid ProductBrandId { get; set; }
+        //
+        public string Description { get; set; }
+		public bool IsActive { get; set; }
+		public bool IsDelete { get; set; }
+		public string Summary { get; set; }
+
+        public ProductType ProductType { get; set; }
+		public ProductBrand ProductBrand { get; set; }
+    }
 }
