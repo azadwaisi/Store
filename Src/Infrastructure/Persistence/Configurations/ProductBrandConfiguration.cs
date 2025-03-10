@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Domain.Entities.Product;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Configurations
 {
-	internal class ProductBrandConfiguration : IEntityTypeConfiguration<ProductBrand>
+    internal class ProductBrandConfiguration : IEntityTypeConfiguration<ProductBrand>
 	{
 		public void Configure(EntityTypeBuilder<ProductBrand> builder)
 		{

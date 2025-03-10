@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infrastructure.Persistence.Context;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.SeedData
 {
-	public class GenerateFakeData
+    public class GenerateFakeData
 	{
 		public static async Task SeedDataAsync(ApplicationDbContext context,ILoggerFactory logger)
 		{
 			try
 			{
-				if ( !await context.Products.AnyAsync() )
+				if (!await context.Products.AnyAsync() )
 				{
 
 				}
@@ -27,12 +28,11 @@ namespace Infrastructure.Persistence.SeedData
 
 				}
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-
-				throw;
+				var log = logger.CreateLogger<GenerateFakeData>();
+				log.LogError($"[{DateTime.Now}][ERROR: {ex}]");
 			}
-			return Task.FromResult(0);
 		}
 	}
 }
