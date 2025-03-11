@@ -10,8 +10,8 @@ namespace Domain.Entities.Reviews
 {
 	public class Review : BaseEntity, ICommands
 	{
-        public Guid ProductID { get; set; }
-        public Guid CustomerID { get; set; }
+        public Guid ProductId { get; set; }
+        public Guid CustomerId { get; set; }
         public int Rating { get; set; }
         public string ReviewText { get; set; }
         public DateTime ReviewDate { get; set; }

@@ -1,7 +1,7 @@
 ﻿using Application.Common.Mapping.Resolver;
 using Application.Dtos.Products;
 using AutoMapper;
-using Domain.Entities.Product;
+using Domain.Entities.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -11,7 +11,7 @@ namespace Domain.Entities.Orders
 {
 	public class Order : BaseEntity, ICommands
 	{
-		public int UserId { get; set; }
+		public Guid UserId { get; set; }
 		public DateTime OrderDate { get; set; }
 		public DateTime ShippedDate { get; set; }
 		public int ShipVia { get; set; } // Foreign Key to Shippers (optional)

@@ -10,7 +10,7 @@ namespace Domain.Entities.Inventory
 {
 	public class InventoryTransaction : BaseEntity
 	{
-        public Guid ProductID { get; set; }
+        public Guid ProductId { get; set; }
         public TransactionType TransactionType { get; set; }
         public int Quantity { get; set; }
         public DateTime TransactionDate { get; set; }

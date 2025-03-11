@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Product;
+﻿using Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -16,7 +16,7 @@ namespace Infrastructure.Persistence.Configurations
 			builder.HasKey(x=>x.Id);
 			builder.Property(x => x.Description).HasMaxLength(500);
 			builder.Property(x => x.Title).HasMaxLength(100);
-			builder.Property(x => x.Summary).HasMaxLength(250);
+			builder.Property(x => x.Summary).HasMaxLength(255);
 		}
 	}
 }

@@ -10,8 +10,8 @@ namespace Domain.Entities.Promotions
 {
 	public class PromotionProduct
 	{
-        public Guid PromotionID { get; set; }
-        public Guid ProductID { get; set; }
+        public Guid PromotionId { get; set; }
+        public Guid ProductId { get; set; }
 
         public Product Product { get; set; }
         public Promotion Promotion { get; set; }

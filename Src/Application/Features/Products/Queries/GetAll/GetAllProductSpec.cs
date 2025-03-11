@@ -1,7 +1,7 @@
 ﻿using Application.Contracts.Specification;
 using Application.Features.Products.Queries.GetAll;
 using Application.Wrappers;
-using Domain.Entities.Product;
+using Domain.Entities.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,33 +23,33 @@ namespace Application.Features.Products.Queries.GetAll
 				switch (specParams.Sort)
 				{
 					case 1:
-						AddOrderByDesc(x => x.Title);
+						AddOrderByDesc(x => x.ProductName);
 						break;
 					case 2:
 						AddOrderByDesc(x => x.ProductType.Title);
 						break;
 					case 3:
-						AddOrderByDesc(x => x.Price);
+						AddOrderByDesc(x => x.UnitPrice);
 						break;
 					default:
-						AddOrderByDesc(x => x.Title);
-						AddOrderByDesc(x => x.Title.Contains("AAAA") || x.PictureUrl.Contains("AAA"));
+						AddOrderByDesc(x => x.ProductName);
+						AddOrderByDesc(x => x.ProductName.Contains("AAAA") || x.PictureUrl.Contains("AAA"));
 						break;
 				}
 			else
 				switch (specParams.Sort)
 				{
 					case 1:
-						AddOrderBy(x => x.Title);
+						AddOrderBy(x => x.ProductName);
 						break;
 					case 2:
 						AddOrderBy(x => x.ProductType.Title);
 						break;
 					case 3:
-						AddOrderBy(x => x.Price);
+						AddOrderBy(x => x.UnitPrice);
 						break;
 					default:
-						AddOrderBy(x => x.Title);
+						AddOrderBy(x => x.ProductName);
 						break;
 				}
 			ApplyPaging(specParams.PageSize, specParams.PageSize * (specParams.PageIndex - 1), true);
@@ -75,7 +75,7 @@ public class Expression
 	public static Expression<Func<Product, bool>> ExpressionSpec(GetAllProductsQuery specParams)
 	{
 		return x =>
-				String.IsNullOrEmpty(specParams.Search) || x.Title.ToLower().Contains(specParams.Search);
+				String.IsNullOrEmpty(specParams.Search) || x.ProductName.ToLower().Contains(specParams.Search);
 			//(string.IsNullOrEmpty(specParams.Search) || x.Title.ToLower().Contains(specParams.Search))
 			//&&
 			//(!specParams.BrandId.HasValue || x.ProductBrandId == specParams.BrandId.Value)
