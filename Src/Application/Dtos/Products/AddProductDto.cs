@@ -1,5 +1,5 @@
 ﻿using Application.Common.Mapping;
-using Application.Dtos.Common;
+using Application.Common.Mapping.Resolver;
 using AutoMapper;
 using Domain.Entities.Products;
 using System;
@@ -10,9 +10,8 @@ using System.Threading.Tasks;
 
 namespace Application.Dtos.Products
 {
-    public class ProductDto : CommonDto , IMapFrom<Product>
+	public class AddProductDto : IMapFrom<Product>
 	{
-		public Guid Id { get; set; }
 		public string ProductName { get; set; }
 		public string Barcode { get; set; }
 		public decimal UnitPrice { get; set; }
@@ -26,20 +25,10 @@ namespace Application.Dtos.Products
 		public Guid ProductBrandId { get; set; }
 		public Guid UserId { get; set; }
 		//
+		public string Description { get; set; }
 
-		public string ProductTypeName { get; set; }
-		public string ProductBrandName { get; set; }
-		public string UserName { get; set; }
-
-		public DateTime CreatedDate { get; set; }
-		public Guid CreateUserId { get; set; }
-		public DateTime? ModifiedDate { get; set; }
-		public Guid? ModifiedUserId { get; set; }
 		//public void Mapping(Profile profile)
 		//{
-		//	profile.CreateMap<Product, ProductDto>()
-		//		.ForMember(x => x.ProductTypeName, c => c.MapFrom(d => d.ProductType.Title))
-		//		.ForMember(x => x.ProductBrandName, c => c.MapFrom(d => d.ProductBrand.Title));
 		//}
 	}
 }
