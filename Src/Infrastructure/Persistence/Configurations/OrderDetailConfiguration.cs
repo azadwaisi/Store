@@ -18,6 +18,10 @@ namespace Infrastructure.Persistence.Configurations
 			builder.Property(x=>x.UnitPrice).HasColumnType("decimal(10, 2)").IsRequired();
 			builder.Property(x=>x.Discount).HasColumnType("decimal(10, 2)").HasDefaultValue(0).IsRequired();
 			builder.Property(x=>x.Quantity).IsRequired();
+
+			builder.Property(x => x.IsActive).HasDefaultValue(true);
+			builder.Property(x => x.Description).HasMaxLength(500);
+			builder.Property(x => x.Summary).HasMaxLength(255);
 			//
 		}
 	}

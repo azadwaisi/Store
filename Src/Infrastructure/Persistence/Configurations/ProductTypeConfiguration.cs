@@ -17,6 +17,10 @@ namespace Infrastructure.Persistence.Configurations
 			builder.Property(x => x.Description).HasMaxLength(500);
 			builder.Property(x => x.Title).HasMaxLength(100);
 			builder.Property(x => x.Summary).HasMaxLength(255);
+
+			builder.Property(x => x.IsActive).HasDefaultValue(true);
+			builder.Property(x => x.Description).HasMaxLength(500);
+			builder.Property(x => x.Summary).HasMaxLength(255);
 		}
 	}
 }

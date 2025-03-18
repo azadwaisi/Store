@@ -1,5 +1,6 @@
 ﻿using Application.Common.Mapping.Resolver;
 using Application.Dtos.Products;
+using Application.Features.Products.Commands.AddProduct;
 using AutoMapper;
 using Domain.Entities.Products;
 using System;
@@ -22,6 +23,7 @@ namespace Application.Common.Mapping
 				.ForMember(x => x.ProductBrandName, c => c.MapFrom(d => d.ProductBrand.Title));
 			CreateMap<Product, AddProductDto>();
 			CreateMap<AddProductDto, Product>();
+			CreateMap<AddProductCommand, Product>();
 		}
     }
 }

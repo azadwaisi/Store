@@ -8,8 +8,8 @@ namespace Domain.Entities.Base
 {
 	public class BaseAuditableEntity : BaseEntity
 	{
-		public DateTime CreatedDate { get; set; }
-		public Guid CreateUserId { get; set; }
+		public DateTime? CreatedDate { get; set; }
+		public Guid? CreateUserId { get; set; }
 		public DateTime? ModifiedDate { get; set; }
 		public Guid? ModifiedUserId { get; set; }
 	}

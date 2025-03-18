@@ -22,7 +22,6 @@ namespace Domain.Entities.Products
         //
         public Guid ProductTypeId { get; set; }
         public Guid ProductBrandId { get; set; }
-        public Guid UserId { get; set; }
         //
         public string Description { get; set; }
         public bool IsActive { get; set; }

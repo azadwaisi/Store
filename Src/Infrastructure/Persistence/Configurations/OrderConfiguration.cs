@@ -24,6 +24,10 @@ namespace Infrastructure.Persistence.Configurations
 			builder.Property(x=>x.ShipRegion).HasMaxLength(255);
 			builder.Property(x=>x.ShipPostalCode).HasMaxLength(20);
 			builder.Property(x=>x.ShipCountry).HasMaxLength(100);
+
+			builder.Property(x => x.IsActive).HasDefaultValue(true);
+			builder.Property(x => x.Description).HasMaxLength(500);
+			builder.Property(x => x.Summary).HasMaxLength(255);
 			//
 		}
 	}

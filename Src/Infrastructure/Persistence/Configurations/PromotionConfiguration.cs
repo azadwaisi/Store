@@ -23,6 +23,9 @@ namespace Infrastructure.Persistence.Configurations
 			builder.Property(x=>x.IsActive).IsRequired();
 			builder.Property(x=>x.MinimumOrderValue).HasColumnType("decimal(10, 2)");
 			builder.Property(x=>x.MaximumDiscountAmount).HasColumnType("decimal(10, 2)");
+			builder.Property(x => x.IsActive).HasDefaultValue(true);
+			builder.Property(x => x.Description).HasMaxLength(500);
+			builder.Property(x => x.Summary).HasMaxLength(255);
 
 			//
 		}

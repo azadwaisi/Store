@@ -23,8 +23,10 @@ namespace Application.Features.Products.Commands.AddProduct
 		}
         public async Task<ProductDto> Handle(AddProductCommand request, CancellationToken cancellationToken)
 		{
-			var product = _mapper.Map<Product>(request.Product);
-			var res = await _unitOfWork.Repository<Product>().AddAsync(product,cancellationToken);
+			var product = _mapper.Map<Product>(request); //when use record --request.Product
+			product.CreatedDate = DateTime.Now;
+			product.CreateUserId = request.UserId;
+			var res = await _unitOfWork.Repository<Product>().AddAsync(product, cancellationToken);
 			await _unitOfWork.Save(cancellationToken);
 			return _mapper.Map<ProductDto>(res);
 		}

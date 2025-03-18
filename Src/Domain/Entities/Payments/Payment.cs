@@ -10,10 +10,10 @@ namespace Domain.Entities.Payments
 {
 	public class Payment : BaseEntity, ICommands
 	{
-        public Guid OrderID { get; set; }
+        public Guid OrderId { get; set; }
         public DateTime PaymentDate { get; set; }
         public PaymenMethod PaymentMethod { get; set; }
-		public string TransactionID { get; set; }
+		public string TransactionId { get; set; }
         public decimal Amount { get; set; }
         public PaymenStatus Status { get; set; }
         public string Description { get; set; }
