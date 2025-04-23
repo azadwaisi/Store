@@ -21,6 +21,7 @@ namespace Application.Common.Mapping
 				.ForMember(x=>x.PictureUrl,c=>c.MapFrom<ProductImageUrlResolver>())
 				.ForMember(x => x.ProductTypeName, c => c.MapFrom(d => d.ProductType.Title))
 				.ForMember(x => x.ProductBrandName, c => c.MapFrom(d => d.ProductBrand.Title));
+			CreateMap<ProductDto, Product>();
 			CreateMap<Product, AddProductDto>();
 			CreateMap<AddProductDto, Product>();
 			CreateMap<AddProductCommand, Product>();

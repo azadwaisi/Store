@@ -1,6 +1,7 @@
 ﻿using Application.Contracts;
 using Application.Dtos.Products;
 using Application.Features.Products.Queries.Get;
+using Application.Interfaces;
 using AutoMapper;
 using Domain.Entities.Products;
 using MediatR;
@@ -16,10 +17,12 @@ namespace Application.Features.Products.Commands.AddProduct
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
-        public AddProductCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+		private readonly ICacheService _cache;
+        public AddProductCommandHandler(IUnitOfWork unitOfWork, IMapper mapper,ICacheService cache)
         {
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
+			_cache = cache;
 		}
         public async Task<ProductDto> Handle(AddProductCommand request, CancellationToken cancellationToken)
 		{
@@ -28,6 +31,7 @@ namespace Application.Features.Products.Commands.AddProduct
 			product.CreateUserId = request.UserId;
 			var res = await _unitOfWork.Repository<Product>().AddAsync(product, cancellationToken);
 			await _unitOfWork.Save(cancellationToken);
+			await _cache.RemoveByTagAsync("products");
 			return _mapper.Map<ProductDto>(res);
 		}
 	}

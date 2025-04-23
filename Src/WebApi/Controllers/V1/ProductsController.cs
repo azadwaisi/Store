@@ -1,5 +1,6 @@
 ﻿using Application.Dtos.Products;
 using Application.Features.Products.Commands.AddProduct;
+using Application.Features.Products.Commands.DeleteProduct;
 using Application.Features.Products.Commands.UpdateProduct;
 using Application.Features.Products.Queries.Get;
 using Application.Features.Products.Queries.GetAll;
@@ -34,5 +35,10 @@ namespace WebApi.Controllers.V1
         {
             return Ok(await Mediator.Send(updateProduct,cancellationToken));
         }
-    }
+		[HttpPut("Delete")]
+		public async Task<ActionResult<ProductDto>> DeleteProduct(DeleteProductCommand deleteProduct, CancellationToken cancellationToken)
+		{
+			return Ok(await Mediator.Send(deleteProduct, cancellationToken));
+		}
+	}
 }

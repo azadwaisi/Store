@@ -1,6 +1,8 @@
-﻿using Application.Contracts;
+﻿using Application.Common.Tags;
+using Application.Contracts;
 using Application.Dtos.Products;
 using Application.Features.Products.Queries.GetAll;
+using Application.Interfaces;
 using Application.Wrappers;
 using AutoMapper;
 using Domain.Entities.Products;
@@ -18,10 +20,12 @@ namespace Application.Features.Products.Commands.UpdateProduct
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
-		public UpdateProductCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+		private readonly ICacheService _cache;
+		public UpdateProductCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICacheService cache)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
+			_cache = cache;
 		}
 		public async Task<ProductDto> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
 		{
@@ -37,7 +41,8 @@ namespace Application.Features.Products.Commands.UpdateProduct
 			product.PictureUrl = request.PictureUrl;
 			product.UnitPrice = request.UnitPrice;
 			product.Discontinued = request.Discontinued;
-			return _mapper.Map<ProductDto>(_unitOfWork.Repository<Product>().UpdateAsync(product, cancellationToken));
+			await _cache.RemoveByTagAsync(CacheTags.Products);
+			return _mapper.Map<ProductDto>(await _unitOfWork.Repository<Product>().UpdateAsync(product, cancellationToken));
 		}
 	}
 }

@@ -7,6 +7,10 @@ using Application;
 using Application.Contracts;
 using WebApi.Middleware;
 using Asp.Versioning;
+using Microsoft.Extensions.Configuration;
+using Application.Interfaces;
+using Infrastructure.Services;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +22,14 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.AddWebServiceCollection();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//builder.Services.AddStackExchangeRedisCache(options =>
+//{
+//	options.Configuration = builder.Configuration.GetConnectionString("RedisConnection"); // از فایل appsettings.json
+//	options.InstanceName = "StoreInstance"; // یک نام برای instance خود انتخاب کنید
+//});// this Only Use When Use IDistributedCache No IConnectionMultiplexer
+var redisConnectionString = builder.Configuration.GetConnectionString("RedisConnection");
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnectionString));
+builder.Services.AddScoped<ICacheService, RedisCacheService>(); // پیاده‌سازی Redis را رجیستر می‌کنیم
 builder.Services.AddApiVersioning(options =>
 {
 	// Report API versions in response headers (recommended for discoverability)
@@ -43,6 +55,7 @@ builder.Services.AddApiVersioning(options =>
 	// Substitute the version in the URL template for Swagger
 	options.SubstituteApiVersionInUrl = true;
 });
+
 
 var app = builder.Build();
 app.UseMiddleware<MiddlewareExceptionHandler>();
