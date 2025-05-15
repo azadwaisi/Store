@@ -33,9 +33,9 @@ namespace Application.Features.Products.Commands.DeleteProduct
 
 			product.IsDelete = true;
 			//product.DeletedAt = DateTime.UtcNow; 
-			await _cache.RemoveByTagAsync(CacheTags.Products);
 			await _unitOfWork.Repository<Product>().UpdateAsync(product,cancellationToken);
 			await _unitOfWork.Save(cancellationToken);
+			await _cache.RemoveByTagAsync(CacheTags.Products);
 
 			return true;
 		}
