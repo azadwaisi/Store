@@ -9,6 +9,6 @@ namespace Application.Contracts.Identity
 {
 	public interface IJwtTokenGenerator
 	{
-		(string token, DateTime expiration) GenerateToken(User user, IList<string> roles);
+		(string token, string refreshToken, DateTime expiration, DateTime refreshTokenExpiration) GenerateToken(User user, IList<string> roles);
 	}
 }

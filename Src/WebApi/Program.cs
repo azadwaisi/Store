@@ -31,6 +31,7 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.AddWebServiceCollection();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 //builder.Services.AddStackExchangeRedisCache(options =>
 //{
 //	options.Configuration = builder.Configuration.GetConnectionString("RedisConnection"); // از فایل appsettings.json

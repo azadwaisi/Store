@@ -1,4 +1,7 @@
-﻿using Domain.Entities.Users;
+﻿using Application.Contracts.Identity;
+using Application.Dtos.Auth;
+using Application.Interfaces;
+using Domain.Entities.Users;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -9,39 +12,65 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Authentication.Commands.RegisterUser
 {
-	public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, IdentityResult>
+	public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, AuthResult>
 	{
 		private readonly UserManager<User> _userManager;
-        // private readonly RoleManager<Role> _roleManager; // اگر می‌خواهید نقش پیش‌فرض بدهید
-        public RegisterUserCommandHandler(UserManager<User> userManager/*, RoleManager<Role> roleManager*/)
+		// private readonly RoleManager<Role> _roleManager; // اگر می‌خواهید نقش پیش‌فرض بدهید
+		private readonly IJwtTokenGenerator _jwtTokenGenerator;
+		private readonly IEmailService _emailService;
+		public RegisterUserCommandHandler(UserManager<User> userManager, IJwtTokenGenerator jwtTokenGenerator,IEmailService emailService/*, RoleManager<Role> roleManager*/)
 		{
 			_userManager = userManager;
+			_jwtTokenGenerator = jwtTokenGenerator;
+			_emailService = emailService;
 			// _roleManager = roleManager;
 		}
 
-		public async Task<IdentityResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+		public async Task<AuthResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
 		{
+			var existingUser = await _userManager.FindByNameAsync(request.UserName);
+			if (existingUser != null)
+			{
+				return new AuthResult
+				{
+					Success = false,
+					Errors = new[] { "کاربری با این نام کاربری یا ایمیل قبلا ثبت شده است" }
+				};
+			}
 			var user = new User
 			{
-				UserName = request.UserDetails.UserName,
-				Email = request.UserDetails.Email,
-				// FirstName = request.UserDetails.FirstName, // اگر در User دارید
-				// LastName = request.UserDetails.LastName,   // اگر در User دارید
-				EmailConfirmed = false // یا false و سپس فرآیند تایید ایمیل
+				UserName = request.UserName,
+				Email = request.Email,
+				EmailConfirmed = false 
 			};
 
-			var result = await _userManager.CreateAsync(user, request.UserDetails.Password);
+			var result = await _userManager.CreateAsync(user, request.Password);
 
-			if (result.Succeeded)
+			if (!result.Succeeded)
 			{
-				// می‌توانید نقش پیش‌فرض به کاربر بدهید
-				// if (!await _roleManager.RoleExistsAsync("User"))
-				// {
-				//     await _roleManager.CreateAsync(new Role { Name = "User" });
-				// }
-				// await _userManager.AddToRoleAsync(user, "User");
+				return new AuthResult
+				{
+					Success = false,
+					Errors = result.Errors.Select(e => e.Description)
+				};
 			}
-			return result;
+			// ایجاد توکن تایید ایمیل
+			var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+			// ارسال ایمیل تایید
+			await _emailService.SendEmailConfirmationAsync(user.Email, confirmEmailToken, user.Id);
+
+			IList<string> roles = new List<string>();
+			// ایجاد JWT توکن
+			var (token, refreshToken , ExpDate, refreshTokenExpire) = _jwtTokenGenerator.GenerateToken(user,roles);
+
+			return new AuthResult
+			{
+				Success = true,
+				Token = token,
+				RefreshToken = refreshToken,
+				UserId = user.Id
+			};
 		}
 	}
 }

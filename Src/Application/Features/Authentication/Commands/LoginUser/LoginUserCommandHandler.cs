@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Authentication.Commands.LoginUser
 {
-	public class LoginUserCommandHandler //: IRequestHandler<LoginUserCommand, AuthResponse?>
+	public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, AuthResponse?>
 	{
 		private readonly UserManager<User> _userManager;
 		private readonly SignInManager<User> _signInManager;
@@ -52,7 +52,7 @@ namespace Application.Features.Authentication.Commands.LoginUser
 			}
 
 			var roles = await _userManager.GetRolesAsync(user);
-			var (token, expiration) = _jwtTokenGenerator.GenerateToken(user, roles);
+			var (token,refereshToken, expiration, refereshTokenExp) = _jwtTokenGenerator.GenerateToken(user, roles);
 
 			return new AuthResponse
 			{

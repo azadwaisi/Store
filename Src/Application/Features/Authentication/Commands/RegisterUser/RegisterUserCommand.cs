@@ -1,4 +1,5 @@
-﻿using Application.Dtos.User;
+﻿using Application.Dtos.Auth;
+using Application.Dtos.User;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -9,8 +10,10 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Authentication.Commands.RegisterUser
 {
-	public class RegisterUserCommand : IRequest<IdentityResult>
+	public class RegisterUserCommand : IRequest<AuthResult>
 	{
-		public required RegisterUserRequest UserDetails { get; set; }
+		public required string UserName { get; set; }
+		public required string Email { get; set; }
+		public required string Password { get; set; }
 	}
 }
